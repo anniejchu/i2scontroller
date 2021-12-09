@@ -1,5 +1,5 @@
 # Building a I2S transmitter in SystemVerilog
-ENGR3420 Computer Architecture 
+ENGR3410 Computer Architecture | Fall 2021
 
 Annie Chu & Manu Patil
 
