@@ -1,4 +1,4 @@
-# System Verilog i2scontroller
+# Building a I2S transmitter in SystemVerilog
 ENGR3420 Computer Architecture 
 
 Annie Chu & Manu Patil
