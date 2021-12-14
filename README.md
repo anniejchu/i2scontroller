@@ -24,5 +24,5 @@ We chose a .wav recording of Carol of the Bells to transmit. Using the Python sc
 - MAX98357A I2S AMP BREAKOUT BOARD
 - SPEAKER 8OHM 500MW 
 
-
-![image](https://drive.google.com/uc?export=view&id=<1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp>)
+<!-- <img src="https://drive.google.com/uc?export=view&id=<1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp" alt="drawing" width="600"/> -->
+![image](https://drive.google.com/uc?export=view&id=1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp)
