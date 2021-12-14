@@ -25,6 +25,4 @@ We chose a .wav recording of Carol of the Bells to transmit. Using the Python sc
 - SPEAKER 8OHM 500MW 
 
 
-<!-- <img src="https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/view" alt="setup" width="600"/>
- -->
-<img src="https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/preview" width="640" height="480" allow="autoplay"></img>
+![image](https://drive.google.com/uc?export=view&id=<1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp>)
