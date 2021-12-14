@@ -27,4 +27,4 @@ We chose a .wav recording of Carol of the Bells to transmit. Using the Python sc
 
 <!-- <img src="https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/view" alt="setup" width="600"/>
  -->
-<iframe src="https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/preview" width="640" height="480" allow="autoplay"></iframe>
+<img src="https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/preview" width="640" height="480" allow="autoplay"></img>
