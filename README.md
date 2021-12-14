@@ -12,6 +12,7 @@ I2S (Inter-Integrated Circuit Sound) is an serial bus interface standard used to
 3. SD (Serial Data) -- serial data to be communicated
 
 This is shown in the figure below (Source: Hackaday)
+
 <img src="https://hackaday.com/wp-content/uploads/2019/04/i2s-timing-themed.png" alt="drawing" width="600"/>
 
 
@@ -22,6 +23,8 @@ We chose a .wav recording of Carol of the Bells to transmit. Using the Python sc
 - Xilinx Vivado
 - MAX98357A I2S AMP BREAKOUT BOARD
 - SPEAKER 8OHM 500MW 
-<img src="https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/view" alt="setup" width="600"/>
 
 
+<!-- <img src="https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/view" alt="setup" width="600"/>
+ -->
+<iframe src="https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/preview" width="640" height="480" allow="autoplay"></iframe>
