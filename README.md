@@ -12,7 +12,9 @@ I2S (Inter-Integrated Circuit Sound) is an serial bus interface standard used to
 3. SD (Serial Data) -- serial data to be communicated
 
 This is shown in the figure below (Source: Hackaday)
-![I2S Bus Lines](https://hackaday.com/wp-content/uploads/2019/04/i2s-timing-themed.png) 
+<!-- ![I2S Bus Lines](https://hackaday.com/wp-content/uploads/2019/04/i2s-timing-themed.png)  -->
+<img src="https://hackaday.com/wp-content/uploads/2019/04/i2s-timing-themed.png" alt="drawing" width="200"/>
+
 
 ### Project Execution
 We chose a .wav recording of Carol of the Bells to transmit. Using the Python script wav2hex.py, we first extracted the PCM audio data array and sampling frequency (fs) from the .wav file and then converted all the integers to hex. This hex file serves as the memory file we load into our SystemVerilog program. 
