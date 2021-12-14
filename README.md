@@ -24,7 +24,7 @@ We chose a 3 second .wav recording of Cantina Band sourced from [UIC](https://ww
 - MAX98357A I2S AMP BREAKOUT BOARD
 - SPEAKER 8OHM 500MW 
 
-<img src="https://drive.google.com/uc?export=view&id=1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp" alt="drawing" width="600"/>
+<img src="https://github.com/anniejchu/i2scontroller/blob/main/images/hardwaresetup.jpg" alt="drawing" width="600"/>
 
 ### Reference Material
 [I2S Bus Specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf)
