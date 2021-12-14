@@ -4,7 +4,7 @@ ENGR3410 Computer Architecture | Fall 2021
 Annie Chu & Manu Patil
 
 ### Project Overview
-In this project, we set to build a I2C transmitter in SystemVerilog to play music out of a speaker. Our MVP was to play an input .wav file and play it through an external speaker. Our stretch goal was replace a .wav file with a MIDI input.
+In this project, we set to build a I2S transmitter in SystemVerilog to play music out of a speaker. Our MVP was to play an input .wav file and play it through an external speaker. Our stretch goal was replace a .wav file with a MIDI input.
 
 I2S (Inter-Integrated Circuit Sound) is an serial bus interface standard used to connect digital audio devices, commonly used to communicate PCM audio data between ICs in an electronic device. The I2S bus typically has 3 wires:
 1. SCK (Serial Clock)
@@ -17,7 +17,7 @@ This is shown in the figure below (Source: Hackaday)
 
 
 ### Project Execution
-We chose a .wav recording of Carol of the Bells to transmit. Using the Python script wav2hex.py, we first extracted the PCM audio data array and sampling frequency (fs) from the .wav file and then converted all the integers to hex. This hex file serves as the memory file we load into our SystemVerilog program. 
+We chose a 3 second .wav recording of Cantina Band to transmit. Using the Python script wav2hex.py, we first extracted the PCM audio data array and sampling frequency (fs) from the .wav file and then converted all data from integers to hex. This hex file serves as the memory file we loaded into our SystemVerilog program. 
 
 ### Hardware
 - Xilinx Vivado
@@ -25,3 +25,7 @@ We chose a .wav recording of Carol of the Bells to transmit. Using the Python sc
 - SPEAKER 8OHM 500MW 
 
 <img src="https://drive.google.com/uc?export=view&id=1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp" alt="drawing" width="600"/>
+
+### Reference Material
+[I2S Bus Specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf)
+
