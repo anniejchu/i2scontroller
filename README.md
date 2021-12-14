@@ -15,10 +15,13 @@ This is shown in the figure below (Source: Hackaday)
 ![I2S Bus Lines](https://hackaday.com/wp-content/uploads/2019/04/i2s-timing-themed.png) 
 
 ### Project Execution
-We chose a .wav recording of Carol of the Bells to transmit. Using the Python script '''wav2hex.py''', we first convert .wav file's PCM integer array and sampling frequency (fs) to hex. We then load 
+We chose a .wav recording of Carol of the Bells to transmit. Using the Python script wav2hex.py, we first extracted the PCM audio data array and sampling frequency (fs) from the .wav file and then converted all the integers to hex. This hex file serves as the memory file we load into our SystemVerilog program. 
 
 ### Hardware
 - Xilinx Vivado
 - MAX98357A I2S AMP BREAKOUT BOARD
 - SPEAKER 8OHM 500MW 
+
+![setup](https://drive.google.com/file/d/1S1xXc8DI54SKvtSzNJcG32rneTbHYrcp/view) 
+
 
