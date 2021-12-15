@@ -32,9 +32,10 @@ We chose a 3 second .wav recording of Cantina Band sourced from [UIC](https://ww
 
 <img src="https://github.com/anniejchu/i2scontroller/blob/main/images/hardwaresetup.jpg" alt="drawing" width="600"/>
 
-In the drawing above, we connected the FPGA to the I2S breakout board directly to the speaker. The I2S board has set pinouts describes in [this link](https://learn.adafruit.com/adafruit-max98357-i2s-class-d-mono-amp/pinouts). For the configurable settings, GAIN and SD/Mode, we used the following:
+In the drawing above, we connected the FPGA to the I2S breakout board directly to the speaker. The I2S board has set pinouts describes in [this link](https://learn.adafruit.com/adafruit-max98357-i2s-class-d-mono-amp/pinouts). 
 
-Given the following options for GAIN and SD/Mode, our choice were in bold
+Given the following options for the configurable settings GAIN and SD/Mode, we chose:
+
 _GAIN_
 - 15dB if a 100K resistor is connected between GAIN and GND
 - 12dB if GAIN is connected directly to GND
