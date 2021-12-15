@@ -21,6 +21,7 @@ We chose a 3 second .wav recording of Cantina Band sourced from [UIC](https://ww
 ### Hardware
 - [Xilinx Cmod A7](https://digilent.com/reference/programmable-logic/cmod-a7/start)
 - [Adafruit I2S 3W Class D Amplifier Breakout](https://www.adafruit.com/product/3006)
+  - [Board Pinouts](https://learn.adafruit.com/adafruit-max98357-i2s-class-d-mono-amp/pinouts)
 - [Mini Metal Speaker w/ Wires - 8 ohm 0.5W](https://www.adafruit.com/product/1890)
 
 <img src="https://github.com/anniejchu/i2scontroller/blob/main/images/hardwaresetup.jpg" alt="drawing" width="600"/>
