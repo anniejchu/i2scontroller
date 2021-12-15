@@ -15,14 +15,13 @@ This is shown in the figure below (Source: Hackaday)
 
 <img src="https://hackaday.com/wp-content/uploads/2019/04/i2s-timing-themed.png" alt="drawing" width="600"/>
 
-
 ### Project Execution
 We chose a 3 second .wav recording of Cantina Band sourced from [UIC](https://www2.cs.uic.edu/~i101/SoundFiles/) to transmit. Using the Python script wav2hex.py, we first extracted the PCM audio data array and sampling frequency (fs) from the .wav file and then converted all data from integers to hex. This hex file serves as the memory file we loaded into our SystemVerilog program. 
 
 ### Hardware
-- Xilinx Vivado
-- MAX98357A I2S AMP BREAKOUT BOARD
-- SPEAKER 8OHM 500MW 
+- [Xilinx Cmod A7](https://digilent.com/reference/programmable-logic/cmod-a7/start)
+- [Adafruit I2S 3W Class D Amplifier Breakout](https://www.adafruit.com/product/3006)
+- [Mini Metal Speaker w/ Wires - 8 ohm 0.5W](https://www.adafruit.com/product/1890)
 
 <img src="https://github.com/anniejchu/i2scontroller/blob/main/images/hardwaresetup.jpg" alt="drawing" width="600"/>
 
