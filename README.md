@@ -19,12 +19,22 @@ This is shown in the figure below (Source: Hackaday)
 We chose a 3 second .wav recording of Cantina Band sourced from [UIC](https://www2.cs.uic.edu/~i101/SoundFiles/) to transmit. Using the Python script wav2hex.py, we first extracted the PCM audio data array and sampling frequency (fs) from the .wav file and then converted all data from integers to hex. This hex file serves as the memory file we loaded into our SystemVerilog program. 
 
 ### Hardware
-- [Xilinx Cmod A7](https://digilent.com/reference/programmable-logic/cmod-a7/start)
+
+Materials
+- [Xilinx Cmod A7 (FPGA)](https://digilent.com/reference/programmable-logic/cmod-a7/start)
 - [Adafruit I2S 3W Class D Amplifier Breakout](https://www.adafruit.com/product/3006)
   - [Board Pinouts](https://learn.adafruit.com/adafruit-max98357-i2s-class-d-mono-amp/pinouts)
 - [Mini Metal Speaker w/ Wires - 8 ohm 0.5W](https://www.adafruit.com/product/1890)
+- Breadboard
+- Wires
 
+Set Up
 <img src="https://github.com/anniejchu/i2scontroller/blob/main/images/hardwaresetup.jpg" alt="drawing" width="600"/>
+
+In the drawing above, we connected the FPGA to the I2S breakout board directly to the speaker. The I2S board has set pinouts describes in [this link](https://learn.adafruit.com/adafruit-max98357-i2s-class-d-mono-amp/pinouts). For the configurable settings, GAIN and SD/Mode, we used the following:
+
+GAIN - *3dB if a 100K resistor is connected between GAIN and Vin*
+SD/Mode - *If the voltage on SD is higher than 1.4V then the output is the Left channel*
 
 ### Reference Material
 [I2S Bus Specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf)
