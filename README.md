@@ -35,6 +35,7 @@ We chose a 3 second .wav recording of Cantina Band sourced from [UIC](https://ww
 In the drawing above, we connected the FPGA to the I2S breakout board directly to the speaker. The I2S board has set pinouts describes in [this link](https://learn.adafruit.com/adafruit-max98357-i2s-class-d-mono-amp/pinouts). For the configurable settings, GAIN and SD/Mode, we used the following:
 
 GAIN - *3dB if a 100K resistor is connected between GAIN and Vin*
+
 SD/Mode - *If the voltage on SD is higher than 1.4V then the output is the Left channel*
 
 ### Reference Material
