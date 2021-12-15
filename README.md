@@ -20,7 +20,7 @@ We chose a 3 second .wav recording of Cantina Band sourced from [UIC](https://ww
 
 ### Hardware
 
-Materials
+#### Materials
 - [Xilinx Cmod A7 (FPGA)](https://digilent.com/reference/programmable-logic/cmod-a7/start)
 - [Adafruit I2S 3W Class D Amplifier Breakout](https://www.adafruit.com/product/3006)
   - [Board Pinouts](https://learn.adafruit.com/adafruit-max98357-i2s-class-d-mono-amp/pinouts)
@@ -28,7 +28,8 @@ Materials
 - Breadboard
 - Wires
 
-Set Up
+#### Set Up
+
 <img src="https://github.com/anniejchu/i2scontroller/blob/main/images/hardwaresetup.jpg" alt="drawing" width="600"/>
 
 In the drawing above, we connected the FPGA to the I2S breakout board directly to the speaker. The I2S board has set pinouts describes in [this link](https://learn.adafruit.com/adafruit-max98357-i2s-class-d-mono-amp/pinouts). For the configurable settings, GAIN and SD/Mode, we used the following:
