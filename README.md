@@ -49,6 +49,33 @@ _SD/MODE_
 - If the voltage on SD is between 0.77V and 1.4V then the output is just the Right channel
 - If the voltage on SD is higher than 1.4V then the output is the Left channel.
 
+### Verilog Implementation
+The verilog implementation consisted of two main state machines
+We created a low level state machine to handle a single I2S frame transaction
+
+<img src="https://github.com/anniejchu/i2scontroller/blob/main/images/FSM_lowlevel.JPG" alt="drawing" width="500"/>
+
+This handles sending the Word Select and the 16 bits of data present for each PCM entry in the memory file
+
+Next we created a high level state machine to interact with the music file in memory and to coordinate sending data via the lower level I2S controller
+
+<img src="https://github.com/anniejchu/i2scontroller/blob/main/images/FSM_highlevel.JPG" alt="drawing" width="500"/>
+
+### Debugging
+For a short part of the project our simulation was broken and so we resorted to an oscilliscope to help with debugging the signals that were being output by the FPGA. Here are a few screen grabs of those traces
+
+Verifying that clock output and data align
+
+<img src="https://github.com/anniejchu/i2scontroller/blob/main/images/waveform_clk_data.jpg" alt="drawing" width="500"/>
+
+Verifying that Word Select and data align
+
+<img src="https://github.com/anniejchu/i2scontroller/blob/main/images/waveform_ws_data.JPG" alt="drawing" width="500"/>
+
+### Results
+Here is a link to a sound recording of our project:
+[Sound Demo](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pd)
+
 ### Reference Material
 [I2S Bus Specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf)
 
