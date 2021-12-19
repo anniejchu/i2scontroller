@@ -2,9 +2,9 @@
 
 module block_rom(clk, addr, rd_data);
 
-parameter W = 8; // Width of each row of  the memory
-parameter L = 32; // Length fo the memory
-parameter INIT = "zeros.memh";
+parameter W = 16; // Width of each row of  the memory
+parameter L = 25000; // Length fo the memory
+parameter INIT = "music/CantinaBand3_lower.memh";
 
 input clk;
 input [$clog2(L)-1:0] addr;
@@ -19,10 +19,7 @@ initial begin
 end
 
 always_ff @(posedge clk) begin
-  rd_data <= ram[addr];
-  // if(wr_ena) begin
-  //   ram[addr] <= wr_data;
-  end
+  rd_data <= rom[addr];
 end
 
 endmodule

@@ -1,0 +1,39 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Thu Dec 16 20:48:04 2021
+[*]
+[dumpfile] "/home/manu/Classes/F2021/CompArch/Finals/i2scontroller/main.fst"
+[dumpfile_mtime] "Thu Dec 16 20:45:54 2021"
+[dumpfile_size] 5640
+[savefile] "/home/manu/Classes/F2021/CompArch/Finals/i2scontroller/verilog/main.gtkw"
+[timestart] 0
+[size] 1853 1025
+[pos] -29 -29
+*0.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] test_main.
+[treeopen] test_main.UUT.
+[sst_width] 225
+[signals_width] 166
+[sst_expanded] 1
+[sst_vpaned_height] 301
+@28
+test_main.UUT.rst
+test_main.UUT.clk
+@22
+test_main.UUT.state[3:0]
+@28
+test_main.UUT.sck
+@22
+test_main.UUT.I2S.state[3:0]
+@28
+test_main.UUT.ws
+@22
+test_main.UUT.I2S.bit_counter[3:0]
+@23
+test_main.UUT.I2S.i_data[15:0]
+@22
+test_main.UUT.I2S.data_buffer[15:0]
+@28
+test_main.UUT.sd
+[pattern_trace] 1
+[pattern_trace] 0

@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-`default_nettype none
+// `default_nettype none
 
 `include "i2s_types.sv"
 
@@ -7,75 +7,73 @@
 // In this guide the "main" device is called the "controller" and the "secondary" device is called the "target".
 module i2s_controller(
   clk, rst,
-  sck, sd, ws,
-  mode,
-  i_ready, i_valid, i_ws, i_data,
-  o_ready, o_valid, o_data
+  sck, sd, ws_in, ws_out,
+  i_ready, i_valid, i_data, i_data_prev
 );
 
 parameter CLK_HZ = 12_000_000;
 parameter CLK_PERIOD_NS = (1_000_000_000/CLK_HZ);
-parameter I2C_CLK_HZ = 400_000; // Must be <= 400kHz
-parameter DIVIDER_COUNT = CLK_HZ/I2C_CLK_HZ/2;  // Divide by two necessary since we toggle the signal
+parameter I2S_CLK_HZ = 400_000; // Must be <= 400kHz
+parameter DIVIDER_COUNT = CLK_HZ/I2S_CLK_HZ/2;  // Divide by two necessary since we toggle the signal
 `ifdef SIMULATION
 parameter COOLDOWN_CYCLES = 12; // Wait between transactions (can help smooth over issues with ACK or STOP or START conditions).
 `else
 parameter COOLDOWN_CYCLES = 120; // Wait between transactions (can help smooth over issues with ACK or STOP or START conditions).
 `endif // SIMULATION
-
+parameter BITS = 8;
 //Module I/O and parameters
-input wire clk, rst; // standard signals
-output logic sck; // i2c signals
-output logic sd;
-output logic ws;
+input wire clk, rst, ws_in; // standard signals
+output logic sck; // clock
+output logic sd; // data
+output logic ws_out; // word select (left or right)
 
-// Create a tristate for the sda input/output pin.
-// Tristates let you go into "high impedance" mode which allows the secondary device to use the same wire to send data back!
-// It's your job to drive sda_oe (output enable) low (combinationally) when it's the secondary's turn to talk.
-// logic sda_oe; // output enable for the sda tristate
-// logic sda_out; // input to the tristate
-// assign sda = sda_oe ? sda_out : 1'bz; // Needs to be an assign for icarus verilog.
-
-input wire i2c_transaction_t mode; // See i2c_types.sv, 0 is WRITE and 1 is READ
+// input wire i2c_transaction_t mode; // See i2c_types.sv, 0 is WRITE and 1 is READ
 output logic i_ready; // ready/valid handshake signals
 input wire i_valid;
-input wire i_ws; // the address of the secondary device.
-input wire [7:0] i_data; // data to be sent on a WRITE opearation
-input wire o_ready; // unused (for now)
-output logic o_valid; // high when data is valid. Should stay high until a new i_valid starts a new transaction.
-output logic [7:0] o_data; // the result of a read transaction (can be x's on a write).
+input wire [BITS-1:0] i_data; // data to be sent on a WRITE opearation
+input wire i_data_prev;
+// Main FSM logic
 
 // Main FSM logic
-i2s_state_t state; // see i2c_types for the canonical states.
+enum logic [3:0] {
+  S_IDLE = 0,
+  S_START = 1,
+  S_WORD_SELECT = 2,
+  S_LOAD_DATA = 3,
+  S_WR_DATA = 4, 
+  S_STOP = 5, 
+  S_ERROR
+} state; // see i2s_types for the canonical states.
+
+
 
 logic [$clog2(DIVIDER_COUNT):0] clk_divider_counter;
 logic [$clog2(COOLDOWN_CYCLES):0] cooldown_counter; // optional, but recommended - have the system wait a few clk cycles before i_ready goes high again - this can make debugging STOP/ACK/START issues way easier!!!
 logic [3:0] bit_counter;
-logic [7:0] data_buffer;
+logic [BITS-1:0] data_buffer;
 
-always_ff @(posedge clk) begin : i2c_fsm  
+always_ff @(posedge clk) begin : i2s_fsm  
   if(rst) begin
     clk_divider_counter <= DIVIDER_COUNT-1;
-    scl <= 1;
+    sck <= 0; //natural state of i2s
     bit_counter <= 0;
-    o_data <= 0;
-    o_valid <= 0;
-    i_ready <= 1;
+    i_ready <= 1; 
     state <= S_IDLE;
+    ws_out <= 0;
+    data_buffer <= 0;
   end else begin // out of reset
-// SOlUTION START
     if(state == S_IDLE) begin
       if(i_valid & i_ready) begin
         i_ready <= 0;
         cooldown_counter <= COOLDOWN_CYCLES;
-        o_valid <= 0;
-        state <= S_START;
-        data_buffer <= i_data;
-        bit_counter <= 7;
+        // o_valid <= 0;
+        state <= S_WORD_SELECT;
+        bit_counter <= 0;
         clk_divider_counter <= DIVIDER_COUNT-1;
+        // 
       end
       else begin
-        scl <= 1;
+        sck <= 0;
         if(cooldown_counter > 0) begin
           i_ready <= 0;
           cooldown_counter <= cooldown_counter - 1;
@@ -86,81 +84,35 @@ always_ff @(posedge clk) begin : i2c_fsm
     end else begin // handle all non-idle state here
     if (clk_divider_counter == 0) begin
       clk_divider_counter <= DIVIDER_COUNT-1;
-      scl <= ~scl;
+      sck <= ~sck;
       case(state)
-        S_START: begin
-          state <= S_ADDR;
-        end
-        S_ADDR: begin
-          if(scl) begin // negative edge logic
-            if(bit_counter > 0) bit_counter <= bit_counter - 1;
-          // end else begin // positive edge logic
-            if(bit_counter == 0) state <= S_ACK_ADDR;
-          end
-        end
-        S_ACK_ADDR: begin
-          // $display("[i2c controller] waiting for ack on address 0x%h, addr[0] = %b", addr_buffer[7:1], addr_buffer[0]);
-          //if(~sda) begin
-            bit_counter <= 7;
-            case(addr_buffer[0]) 
-              WRITE_8BIT_REGISTER : begin
-                if(scl) state <= S_WR_DATA;
-              end
-              READ_8BIT : begin
-                if(~scl) state <= S_RD_DATA;
-              end
-            endcase
-          //end
-          /*
-          else begin
-            if(~scl) begin
-              state <= S_STOP; // Go to STOP if there is no acknowledge. Technically you could go to START again (look up repeated START) if you are worried about efficiency.
-            end
-          end
-          */
-        end
+        S_WORD_SELECT: begin
+          if(sck) begin // negative edge logic
+            ws_out <= ws_in;
+            state <= S_LOAD_DATA;
+            bit_counter <= BITS-1;
+            data_buffer[BITS-1:1] <= data_buffer[BITS-2:0];
 
-        S_RD_DATA : begin
-          if(~scl) begin
-            data_buffer[0] <= sda;
-            data_buffer[7:1] <= data_buffer[6:0];
-            if(bit_counter > 0) begin
-              bit_counter <= bit_counter - 1;
-            end
-            else begin
-              state <= S_ACK_RD;
-            end
           end
         end
-        S_ACK_RD : begin
-          if(~scl) begin // positive edge
-            state <= S_STOP;
-            o_data <= data_buffer;
-            o_valid <= 1;
+        S_LOAD_DATA: begin
+          if(sck) begin // negative edge logic
+            
+            data_buffer <= i_data;
+            state <= S_WR_DATA;
+            bit_counter <= bit_counter - 1;
           end
         end
         S_WR_DATA: begin
-          if(scl) begin // negative edge logic
+          if(sck) begin // negative edge logic
+            // if(bit_counter==BITS-1) ;
+            if(bit_counter==1) state <= S_IDLE;
             bit_counter <= bit_counter - 1;
             if(bit_counter > 0) begin  
               // data_buffer[0] <= 1'b1; // Shift in ones to leave SDA as default high. More for the prettiness of the waveform, it shouldn't matter.
-              data_buffer[7:1] <= data_buffer[6:0];
+              data_buffer[BITS-1:1] <= data_buffer[BITS-2:0];
             end
           end
-          else if(&bit_counter) begin
-              state <= S_ACK_WR;
-          end
-        end
-        S_ACK_WR: begin
-          if(scl) begin // negative edge logic? //TODO(avinash)
-            state <= S_STOP;
-            if(~sda) begin
-            end
-          end
-        end
-
-        S_STOP: begin
-          state <= S_IDLE;
         end
         S_ERROR: begin
 `ifndef SIMULATION // In simulation stop, in synthesis, keep running!
@@ -173,22 +125,14 @@ always_ff @(posedge clk) begin : i2c_fsm
       end
     end
   end
-// SOLUTION END
 end
 
-// SOLUTION START
-always_comb case(state)
-  S_START, S_ADDR, S_WR_DATA, S_ACK_RD: sda_oe = 1;
-  default : sda_oe = 0;
-endcase
 
 always_comb case(state)
-  S_START: sda_out = 0; // Start signal.
-  S_ADDR: sda_out = addr_buffer[bit_counter[2:0]];
-  S_WR_DATA : sda_out = data_buffer[7]; //data_buffer[bit_counter];
-  S_ACK_RD : sda_out = 0;
-  default : sda_out = 0; //TODO
+  S_START: sd = 0; // Start signal.
+  // S_LOAD_DATA
+  S_WR_DATA, S_WORD_SELECT, S_LOAD_DATA : sd = data_buffer[BITS-1]; //data_buffer[bit_counter];
+  // default : sd = 0; //TODO
 endcase
-// SOLUTION END
 
 endmodule
