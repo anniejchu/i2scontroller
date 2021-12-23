@@ -1,11 +1,6 @@
-`default_nettype none // Overrides default behaviour (in a good way)
+`default_nettype none 
 
-/*
-  Starter module for the etch-a-sketch lab.
-*/
-// `include "i2s_controller.sv"
 module main(
-  // On board signals
   clk, buttons, leds, rgb, sck, sd, ws, shutdown, gain
 );
 parameter CLK_HZ = 12_000_000; // aka ticks per second
@@ -24,39 +19,31 @@ output logic ws;
 output logic shutdown;
 output logic gain;
 
+// Based on trial and error. About max amount of data SRAM can handle
 parameter W = 16;
-parameter L = 50000;
+parameter L = 50000; 
 parameter INIT = "./music/CantinaBand3_lower.memh";
 logic [$clog2(L)-1:0] addr;
 logic [W-1:0] rd_data;
-
-parameter BITS = 16;
-
 
 block_rom #(.W(W), .L(L), .INIT(INIT)) ROM (
     .clk(clk), .addr(addr), .rd_data(rd_data)
 );
 
+parameter BITS = 16;
 logic [BITS-1:0] i_data;
-logic ws_in;
+logic ws_data;
 wire i_ready;
 logic i_valid;
-logic i_data_prev;
 
-
-i2s_controller #(
-    .CLK_HZ(CLK_HZ), .I2S_CLK_HZ(I2S_CLK_HZ),
-    .COOLDOWN_CYCLES(0), .BITS(BITS)
-    ) I2S (
-  .clk(clk), .rst(rst), 
-  .sck(sck), .sd(sd), .ws_in(ws_in), .ws_out(ws),
-  .i_ready(i_ready), .i_valid(i_valid), .i_data(i_data),
-  .i_data_prev(i_data_prev)
-  );
+i2s_controller #(.CLK_HZ(CLK_HZ), .I2S_CLK_HZ(I2S_CLK_HZ), .BITS(BITS)) I2S (
+    .clk(clk), .rst(rst), .sck(sck),
+    .sd(sd), .ws_data(ws_data), .ws_out(ws),
+    .i_ready(i_ready), .i_valid(i_valid), .i_data(i_data)
+);
 
 enum logic [3:0] {
   S_IDLE = 0,
-  S_INIT = 1, // Unused for now
   S_READ_MEM = 2,
   S_WR_I2S_L = 3,
   S_WR_I2S_R = 4,
@@ -98,19 +85,14 @@ always_ff @( posedge clk ) begin
 end
 
 always_comb case(state)
-    S_WR_I2S_L: ws_in = 1;
-    S_WR_I2S_R: ws_in  = 0;
-    // default: ws_in = 0;
+    S_WR_I2S_L: ws_data = 1;
+    S_WR_I2S_R: ws_data  = 0;
+    // default: ws_data = 0;
 endcase
 
 always_comb case(state)
     S_WR_I2S_L, S_WR_I2S_R: i_valid = 1;
     default: i_valid = 0;
-endcase
-
-always_comb case(state)
-    S_IDLE: i_data_prev = rd_data[0];
-    // default: i_data_prev = 0;
 endcase
 
 always_comb case(state) 
