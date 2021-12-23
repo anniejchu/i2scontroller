@@ -80,7 +80,7 @@ Here is a visual of our final waveforms in GTKWave
 
 <img src="https://github.com/anniejchu/i2scontroller/blob/main/images/main_waves.png" alt="drawing" width="1200"/>
 
-Here is a link to a sound recording of our project:
+Here is a link to a sound recording of our project (WARNING: the music is very loud and rough, be careful!):
 [Sound Demo](https://drive.google.com/file/d/1uY2d3jJLy-enV5MUTJv4d-tL5bIIKNn7/view?usp=sharing)
 
 ### Reference Material
