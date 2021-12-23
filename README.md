@@ -13,7 +13,7 @@ I2S (Inter-Integrated Circuit Sound) is an serial bus interface standard used to
 
 This is shown in the figure below (Source: Hackaday)
 
-<img src="https://hackaday.com/wp-content/uploads/2019/04/i2s-timing-themed.png" alt="drawing" width="600"/>
+<img src="https://hackaday.com/wp-content/uploads/2019/04/i2s-timing-themed.png" alt="drawing" width="800"/>
 
 ## Project Execution
 We chose a 3 second .wav recording of Cantina Band sourced from [UIC](https://www2.cs.uic.edu/~i101/SoundFiles/) to transmit. Using the Python script wav2hex.py, we first extracted the PCM audio data array and sampling frequency (fs) from the .wav file and then converted all data from integers to hex. This hex file serves as the memory file we loaded into our SystemVerilog program. 
@@ -72,9 +72,16 @@ Verifying that Word Select and data align
 
 <img src="https://github.com/anniejchu/i2scontroller/blob/main/images/waveform_ws_data.JPG" alt="drawing" width="500"/>
 
+We were eventually able to solve the issue by adjusting our Makefile. We needed to be less clever.
+
+
 ### Results
+Here is a visual of our final waveforms in GTKWave
+
+<img src="https://github.com/anniejchu/i2scontroller/blob/main/images/main_waves.png" alt="drawing" width="1200"/>
+
 Here is a link to a sound recording of our project:
-[Sound Demo](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pd)
+[Sound Demo](https://drive.google.com/file/d/1uY2d3jJLy-enV5MUTJv4d-tL5bIIKNn7/view?usp=sharing)
 
 ### Reference Material
 [I2S Bus Specification](https://www.sparkfun.com/datasheets/BreakoutBoards/I2SBUS.pdf)
